@@ -72,7 +72,7 @@ bool get_flag_option(const std::vector<std::string> & args, const std::string & 
 
 bool parse_command_options(
   int argc, char ** argv, bool & output_topic_introspection,
-  bool & bridge_all_1to2_topics, bool & bridge_all_2to1_topics, int & loop_rate=10)
+  bool & bridge_all_1to2_topics, bool & bridge_all_2to1_topics, int & loop_rate)
 {
   std::vector<std::string> args(argv, argv + argc);
 
@@ -765,7 +765,7 @@ int main(int argc, char * argv[])
   bool output_topic_introspection;
   bool bridge_all_1to2_topics;
   bool bridge_all_2to1_topics;
-  int loop_rate;
+  int loop_rate = 10;
   if (!parse_command_options(
       argc, argv, output_topic_introspection, bridge_all_1to2_topics, bridge_all_2to1_topics, loop_rate))
   {

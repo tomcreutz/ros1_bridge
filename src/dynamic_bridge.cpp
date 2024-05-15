@@ -1130,7 +1130,7 @@ int main(int argc, char * argv[])
 
 
   // ROS 1 asynchronous spinner
-  ros::AsyncSpinner async_spinner(1);
+  ros::AsyncSpinner async_spinner(0);
   async_spinner.start();
 
   // ROS 2 spinning loop

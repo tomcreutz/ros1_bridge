@@ -72,7 +72,7 @@ bool get_flag_option(const std::vector<std::string> & args, const std::string & 
 
 bool parse_command_options(
   int argc, char ** argv, bool & output_topic_introspection,
-  bool & bridge_all_1to2_topics, bool & bridge_all_2to1_topics, int & loop_rate=1.0)
+  bool & bridge_all_1to2_topics, bool & bridge_all_2to1_topics, int & loop_rate=10)
 {
   std::vector<std::string> args(argv, argv + argc);
 
@@ -90,7 +90,7 @@ bool parse_command_options(
     ss << "a matching subscriber." << std::endl;
     ss << " --bridge-all-2to1-topics: Bridge all ROS 2 topics to ROS 1, whether or not there is ";
     ss << "a matching subscriber." << std::endl;
-    ss << " --loop-rate <seconds>: Time how often the ros1 topics will be polled " << std::endl;
+    ss << " --loop-rate <milliseconds>: Time how often the topics will be polled " << std::endl;
     std::cout << ss.str();
     return false;
   }
@@ -948,7 +948,7 @@ int main(int argc, char * argv[])
         bridge_all_1to2_topics, bridge_all_2to1_topics);
     };
 
-  auto ros1_poll_timer = ros1_node.createTimer(ros::Duration(loop_rate), ros1_poll);
+  auto ros1_poll_timer = ros1_node.createTimer(ros::Duration(loop_rate * 0.001), ros1_poll);
 
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
@@ -1126,7 +1126,7 @@ int main(int argc, char * argv[])
     };
 
   auto ros2_poll_timer = ros2_node->create_wall_timer(
-    std::chrono::seconds(loop_rate), ros2_poll);
+    std::chrono::milliseconds(loop_rate), ros2_poll);
 
 
   // ROS 1 asynchronous spinner
